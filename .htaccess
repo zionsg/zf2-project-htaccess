@@ -24,7 +24,7 @@ RewriteEngine On
 
 # Store current folder as base path in BASE environment variable - to use, %{ENV:BASE}
 # BASE = / if this .htaccess is in the web root, BASE = /subfolder/ if it is in a subfolder
-# Using http://example.com/project/a/b as example:
+# Using http://example.com/project/a/b as example with this .htaccess in /project/ (making /project/ the current folder)
 #   - request uri is /project/a/b
 #   - 1st group in RewriteRule is a/b (Apache removes the filesystem prefix including current folder hence no /project/)
 #   - the $1 in the RewriteCond is a backreference to the 1st group in the RewriteRule
