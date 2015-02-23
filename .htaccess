@@ -16,20 +16,20 @@
 # @link    https://github.com/zionsg/zf2-project-htaccess for canonical source repository
 # @author  Zion Ng <zion@intzone.com>
 # @since   2015-02-23T15:30+08:00
-# @version 2015-02-23T17:55+08:00
+# @version 2015-02-23T17:30+08:00
 ##
 
 # Enable mod_rewrite
 RewriteEngine On
 
 # Store current folder as base path in BASE environment variable - to use, %{ENV:BASE}
-# BASE = / or empty if this .htaccess is in the web root, BASE = /subfolder/ if it is in a subfolder
+# BASE = / if this .htaccess is in the web root, BASE = /subfolder/ if it is in a subfolder
 # Using http://example.com/project/a/b as example:
 #   - request uri is /project/a/b
 #   - 1st group in RewriteRule is a/b (Apache removes the filesystem prefix including current folder hence no /project/)
 #   - the $1 in the RewriteCond is a backreference to the 1st group in the RewriteRule
 #   - the RewriteCond expands to "RewriteCond /project/a/b::a/b ^(/.+)(a/b)::a/b" giving /project/ for %1 in RewriteRule
-RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
+RewriteCond %{REQUEST_URI}::$1 ^(/.*)(.*)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 
 # Rewrite all queries to index.php (except itself and files inside the public/ directory of the project).
@@ -38,7 +38,6 @@ RewriteRule ^(.*) - [E=BASE:%1]
 #
 # Note that for "RewriteCond TestString CondPattern", server/environment variables cannot be used in CondPattern unless
 # TestString is set to the special value "expr" in which case CondPattern will be treated as an ap_expr.
-# The * immediately after %{ENV:BASE} is to cater for a directory slash when project is in web root and BASE is empty.
-RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}*index.php'"
-RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}*public/*'"
-RewriteRule ^(.*)$ %{ENV:BASE}/index.php [NC,L]
+RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}index.php'"
+RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}public/*'"
+RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
