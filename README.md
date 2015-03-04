@@ -15,7 +15,7 @@ http://example.com/skeleton
     [img]
     [js]
   [vendor]
-    .htaccess
-    index.php
-    init_autoloader.php
+  .htaccess
+  index.php
+  init_autoloader.php
 ```
