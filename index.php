@@ -14,12 +14,18 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
 // Setup autoloading
 include 'init_autoloader.php';
 
-// Start session manually to prevent error below caused by FlashMessenger
-// "PHP Fatal error:  Class name must be a valid object or a string in Zend/Stdlib/ArrayObject.php on line 230"
+// Init application
+$application = Zend\Mvc\Application::init(include 'config/application.config.php');
+
+// Start session manually to prevent error below caused by FlashMessenger, captcha and stuff stored in session:
+//   "PHP Fatal error:  Class name must be a valid object or a string in Zend/Stdlib/ArrayObject.php on line 230"
 // Solution from https://github.com/zendframework/zf2/issues/4386#issuecomment-24896063
+// Code placed in between application init and run:
+//   after init() else retrieving items from session will give "PHP Incomplete Class", eg. identity from auth service
+//   before run() so that session will exist before application starts
 $sessionManager = new Zend\Session\SessionManager();
-$sessionManager->setName('unique-name-for-app');
+$sessionManager->setName('app');
 $sessionManager->start();
 
 // Run application
-Zend\Mvc\Application::init(include 'config/application.config.php')->run();
+$application->run();
