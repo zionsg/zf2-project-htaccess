@@ -41,3 +41,10 @@ RewriteRule ^(.*) - [E=BASE:%1]
 RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}index.php'"
 RewriteCond expr "! %{REQUEST_URI} -strcmatch '%{ENV:BASE}public/*'"
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [NC,L]
+
+# If the above does not work, comment everything after RewriteEngine and uncomment the lines below
+# RewriteCond %{REQUEST_FILENAME} -s [OR]
+# RewriteCond %{REQUEST_FILENAME} -l [OR]
+# RewriteCond %{REQUEST_FILENAME} -d
+# RewriteRule ^.*$ - [NC,L]
+# RewriteRule ^.*$ index.php [NC,L]
