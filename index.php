@@ -4,6 +4,7 @@
  * to the application root now.
  */
 
+// Use getcwd() anywhere (controller, view script, etc.) to get application path
 // chdir(dirname(__DIR__)); // Not needed if index.php is in same directory as init_autoloader.php
 
 // Decline static file requests back to the PHP built-in webserver
